@@ -2,7 +2,7 @@
 
 This repository contains a **Dockerfile** that can be used to create a cluster of Couchbase nodes
 
-This **Dockerfile** has been published as a [trusted build](https://registry.hub.docker.com/u/jamesdbloom/couchbase/) to the public [Docker Registry](https://index.docker.io/).
+This **Dockerfile** has been published as a [trusted build](https://registry.hub.docker.com/u/jamesdbloom/docker-couchbase/) to the public [Docker Registry](https://index.docker.io/).
 
 
 ### Dependencies
@@ -14,7 +14,7 @@ This **Dockerfile** has been published as a [trusted build](https://registry.hub
 
 1. Install [Docker](https://www.docker.io/).
 
-2. Download [trusted build](https://registry.hub.docker.com/u/jamesdbloom/couchbase/) from public [Docker Registry](https://index.docker.io/): `docker pull jamesdbloom/couchbase`
+2. Download [trusted build](https://registry.hub.docker.com/u/jamesdbloom/docker-couchbase/) from public [Docker Registry](https://index.docker.io/): `docker pull jamesdbloom/couchbase`
 
 ### Usage
 

@@ -3,7 +3,7 @@
 #
 
 # Pull base image
-FROM ubuntu:14.04
+FROM ubuntu
 
 # Maintainer details
 MAINTAINER James D Bloom "jamesdbloom@gmail.com"

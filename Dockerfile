@@ -15,9 +15,9 @@ RUN \
   apt-get update && \
   apt-get -y upgrade && \
   apt-get -y install vim wget curl libssl0.9.8 librtmp0 python && \
-  wget http://packages.couchbase.com/releases/2.5.1/couchbase-server-enterprise_2.5.1_x86_64.deb -O couchbase-server-enterprise_2.5.1_x86_64.deb && \
-  dpkg -i couchbase-server-enterprise_2.5.1_x86_64.deb && \
-  rm couchbase-server-enterprise_2.5.1_x86_64.deb
+  wget http://packages.couchbase.com/releases/3.0.0-beta2/couchbase-server_3.0.0-beta2_x86_64_ubuntu_1004.deb -O couchbase-server_3.0.0-beta2_x86_64_ubuntu_1004.deb && \
+  dpkg -i couchbase-server_3.0.0-beta2_x86_64_ubuntu_1004.deb && \
+  rm couchbase-server_3.0.0-beta2_x86_64_ubuntu_1004.deb
 
 ADD start-couchbase.sh /start-couchbase.sh
 

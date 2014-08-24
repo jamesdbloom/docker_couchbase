@@ -1,15 +1,7 @@
 #!/bin/bash
 set +e
 
-if [ -z "$CLUSTER_INIT_USER" ] || [ -z "$CLUSTER_INIT_PASSWORD" ]; then
-        echo >&2 'error: Couchbase not initialized because CLUSTER_INIT_USER or CLUSTER_INIT_PASSWORD was not set'
-        echo >&2 '       Did you forget to add -e CLUSTER_INIT_USER=... -e CLUSTER_INIT_PASSWORD=... ?'
-        exit 1
-fi
 
-if [ -z "$CLUSTER_RAM_SIZE" ]; then
-CLUSTER_RAM_SIZE=1024
-fi
 
 echo 'removing document size limit'
 sed -i 's/return getStringBytes(json) > self.docBytesLimit;/return false/g' /opt/couchbase/lib/ns_server/erlang/lib/ns_server/priv/public/js/documents.js
@@ -27,11 +19,28 @@ wait_for_start() {
     done
 }
 
-echo 'initializing cluster...'
-wait_for_start /opt/couchbase/bin/couchbase-cli cluster-init -c 127.0.0.1:8091 --cluster-init-username="$CLUSTER_INIT_USER" --cluster-init-password="$CLUSTER_INIT_PASSWORD" --cluster-init-ramsize="$CLUSTER_RAM_SIZE" -u "$CLUSTER_INIT_USER" -p "$CLUSTER_INIT_PASSWORD"
 
-if [ -n "$SAMPLE_BUCKETS" ]; then
-curl http://"$CLUSTER_INIT_USER":"$CLUSTER_INIT_PASSWORD"@127.0.0.1:8091/sampleBuckets/install --data "[$SAMPLE_BUCKETS]"
+if [ -z "$CLUSTER_INIT_USER" ] || [ -z "$CLUSTER_INIT_PASSWORD" ]; then
+       echo >&2 'error: Couchbase not initialized because CLUSTER_INIT_USER or CLUSTER_INIT_PASSWORD was not set'
+       echo >&2 '       Did you forget to add -e CLUSTER_INIT_USER=... -e CLUSTER_INIT_PASSWORD=... ?'
+       exit 1
+fi
+
+if [ -z "$COUCHBASE_PORT_8091_TCP" ]; then
+
+    if [ -z "$CLUSTER_RAM_SIZE" ]; then
+        CLUSTER_RAM_SIZE=1024
+    fi
+
+    echo 'initializing cluster...'
+    wait_for_start /opt/couchbase/bin/couchbase-cli cluster-init -c 127.0.0.1:8091 --cluster-init-username="$CLUSTER_INIT_USER" --cluster-init-password="$CLUSTER_INIT_PASSWORD" --cluster-init-ramsize="$CLUSTER_RAM_SIZE" -u "$CLUSTER_INIT_USER" -p "$CLUSTER_INIT_PASSWORD"
+
+    if [ -n "$SAMPLE_BUCKETS" ]; then
+    curl http://"$CLUSTER_INIT_USER":"$CLUSTER_INIT_PASSWORD"@127.0.0.1:8091/sampleBuckets/install --data "[$SAMPLE_BUCKETS]"
+    fi
+else
+    ip=`hostname --ip-address`
+    wait_for_start /opt/couchbase/bin/couchbase-cli server-add -c $COUCHBASE_PORT_8091_TCP_ADDR:$COUCHBASE_PORT_8091_TCP_PORT --user="$CLUSTER_INIT_USER" --password="$CLUSTER_INIT_PASSWORD" --server-add=$ip:8091
 fi
 
 trap "/etc/init.d/couchbase-server stop" exit INT TERM

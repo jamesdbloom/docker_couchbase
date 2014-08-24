@@ -1,6 +1,6 @@
 ## Couchbase Dockerfile
 
-This repository contains a **Dockerfile** to create an instance of Couchbase
+This repository contains a **Dockerfile** that can be used to create a cluster of Couchbase nodes
 
 This **Dockerfile** has been published as a [trusted build](https://registry.hub.docker.com/u/jamesdbloom/couchbase/) to the public [Docker Registry](https://index.docker.io/).
 

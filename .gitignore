@@ -25,3 +25,4 @@ Thumbs.db
 # Vangrant artifacts #
 ######################
 .vagrant
+.env
